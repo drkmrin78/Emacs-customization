@@ -1,0 +1,7 @@
+* Emacs Configuration
+  This configuration is mostly with in /init.el/. Bookmarks can be viewed. 
+  Packages are also included, for a fully functioning clone. 
+
+* gitignore
+  the gitignore file is used to hide /.data/, /*~/ (backups), and
+  /auto-save-list// directory.
