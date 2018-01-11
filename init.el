@@ -15,6 +15,7 @@
 (setq evil-insert-state-cursor '((bar . 4) "dark violet")
       evil-normal-state-cursor '(box "medium spring green"))
 ;;basics all users should set
+;; swap CTRL and CAPS (highly recommend)
 (global-linum-mode)
 (setq-default c-basic-offset 3)
 (fset 'yes-or-no-p 'y-or-n-p)
@@ -146,5 +147,5 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "Source Code Pro" :foundry "adobe" :slant normal :weight normal :height 181 :width normal))))
+ '(default ((t (:family "Source Code Pro" :foundry "adobe" :slant normal :weight normal :height 127 :width normal))))
  '(region ((t (:background "light slate gray")))))
