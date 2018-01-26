@@ -19,7 +19,7 @@
 (global-linum-mode)
 (setq-default c-basic-offset 3)
 (fset 'yes-or-no-p 'y-or-n-p)
-
+(gdb-many-windows t)
 ;;ORG MODE
 (setq org-ellipsis "▾")
 
