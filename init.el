@@ -19,7 +19,7 @@
 (global-linum-mode)
 (setq-default c-basic-offset 3)
 (fset 'yes-or-no-p 'y-or-n-p)
-(gdb-many-windows t)
+(setq compile-command "gcc -ansi -Wall -g -O0 -Wwrite-strings -Wshadow -pedantic-errors -fstack-protector-all")
 ;;ORG MODE
 (setq org-ellipsis "▾")
 
