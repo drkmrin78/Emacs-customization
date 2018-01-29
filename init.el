@@ -8,18 +8,32 @@
 			 ("melpa" . "http://melpa.org/packages/")
 			 ("marmalade" . "http://marmalade-repo.org/packages/")))
 
+;;EVIL
 (require 'evil)
 (evil-mode t)
 ;;Better Undo than default
 (setq evil-want-fine-undo t)
 (setq evil-insert-state-cursor '((bar . 4) "dark violet")
       evil-normal-state-cursor '(box "medium spring green"))
+
 ;;basics all users should set
 ;; swap CTRL and CAPS (highly recommend)
 (global-linum-mode)
 (setq-default c-basic-offset 3)
 (fset 'yes-or-no-p 'y-or-n-p)
-(setq compile-command "gcc -ansi -Wall -g -O0 -Wwrite-strings -Wshadow -pedantic-errors -fstack-protector-all")
+
+;;multi-compile
+(require 'multi-compile)
+(setq multi-compile-alist
+      '(
+	(c-mode . (("gcc-216" . "gcc -ansi -Wall -g -O0 -Wwrite-strings -Wshadow -pedantic-errors -fstack-protector-all %file-name")
+		   ("gcc" . "gcc -g %file-name")
+		   ("make" . "make")))
+	)
+      ;; more compile commands can be added here.
+      )
+(global-set-key (kbd "H-c") 'multi-compile-run)
+
 ;;ORG MODE
 (setq org-ellipsis "▾")
 
@@ -139,7 +153,7 @@
 #+end_src")
  '(package-selected-packages
 (quote
- (graphviz-dot-mode demo-it ace-mc caml prolog tuareg org-bullets org-ac hydra evil ess)))
+ (multi-compile graphviz-dot-mode demo-it ace-mc caml prolog tuareg org-bullets org-ac hydra evil ess)))
  '(show-paren-mode t)
  '(tool-bar-mode nil))
 (custom-set-faces
