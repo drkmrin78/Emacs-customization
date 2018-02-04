@@ -89,7 +89,7 @@
 (autoload 'prolog-mode "prolog" "Major mode for editing Prolog programs." t)
 (add-to-list 'auto-mode-alist '("\\.pl\\'" . prolog-mode))
 
-;;Emacs wiki
+
 (defun window-swap-rotate ()
   "Swap the positions of this window and the next one."
   (interactive)
@@ -107,7 +107,6 @@
       (set-window-point (selected-window) other-window-point)
       (set-window-start (selected-window) other-window-start))
     (select-window other-window)))
-(global-set-key (kbd "H-r") 'window-swap-rotate)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -121,8 +120,12 @@
 ;; If you want to create a file, visit that file with C-x C-f,
 ;; then enter the text in that file's own buffer.
 ;; If you want to create a Org/Latex doc, use the code below.
+;; remember to change the PATH, TITLE, and DATE appropriately.
 
-#+title: TITLE 
+(org-mode) ;;`C-x C-e` then `C-c C-c` below
+#+begin_src sh 
+    cd ~/Desktop/PATH
+    echo \"#+title: TITLE 
 #+options: toc:nil num:nil tex:t tit
 #+startup: latexpreview showall 
 #+latex_header:	\\usepackage{graphicx}  \\graphicspath{{}} 
@@ -131,12 +134,13 @@
 #+latex_header:	\\renewcommand{\\maketitle}{} 
 #+latex_header:	\\usepackage[top=0.5in, bottom=1in, left=1in, right=1in]{geometry} 
 #+latex_header:	\\usepackage{mathtools} \\DeclarePairedDelimiter\\ceil{\\lceil}{\\rceil} \\DeclarePairedDelimiter\\floor{\\lfloor}{\\rfloor}
-* \\begin{center} Drake Petersen \\tab TITLE \\tab DATE 2018 \\end{center}
-")
+* \\begin{center} Drake Petersen \\tab TITLE \\tab DATE 2017 \\end{center}
+\" > TITLE.org
+#+end_src")
  '(org-list-allow-alphabetical t)
  '(package-selected-packages
 (quote
- (multi-compile graphviz-dot-mode demo-it ace-mc prolog tuareg org-bullets org-ac evil ess)))
+ (multi-compile graphviz-dot-mode demo-it ace-mc caml prolog tuareg org-bullets org-ac evil ess)))
  '(show-paren-mode t)
  '(tool-bar-mode nil))
 (custom-set-faces
