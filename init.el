@@ -8,6 +8,9 @@
 			 ("melpa" . "http://melpa.org/packages/")
 			 ("marmalade" . "http://marmalade-repo.org/packages/")))
 
+;;Tramp
+(setq tramp-default-method "sshx")
+
 ;;EVIL
 (require 'evil)
 (evil-mode t)
@@ -135,8 +138,8 @@
 ")
  '(org-list-allow-alphabetical t)
  '(package-selected-packages
-(quote
- (multi-compile graphviz-dot-mode demo-it ace-mc prolog tuareg org-bullets org-ac evil ess)))
+   (quote
+    (multi-compile graphviz-dot-mode demo-it ace-mc prolog tuareg org-bullets org-ac evil ess)))
  '(show-paren-mode t)
  '(tool-bar-mode nil))
 (custom-set-faces

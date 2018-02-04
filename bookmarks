@@ -2,7 +2,26 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("HACS408T.org"
+(("instructor216"
+ (filename .
+	   #("/sshx:junkfood.cs.umd.edu:/fs/instruct/Active/cmsc216Spring2018/" 1 5
+	     (tramp-default t)))
+ (front-context-string . " /sshx:junkfood.")
+ (rear-context-string)
+ (position . 2))
+("grace:~/"
+ (filename .
+	   #("/sshx:grace.umd.edu:/homes/drakemp/" 1 5
+	     (tramp-default t)))
+ (front-context-string . " /sshx:grace.umd")
+ (rear-context-string)
+ (position . 2))
+("todo.org"
+ (filename . "~/Dropbox/todo.org")
+ (front-context-string . "* DONE RSVP to b")
+ (rear-context-string)
+ (position . 1))
+("HACS408T.org"
  (filename . "~/Dropbox/HACS408T.org")
  (front-context-string . "#+title: HACS408")
  (rear-context-string)
