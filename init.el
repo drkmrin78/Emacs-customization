@@ -69,7 +69,7 @@
 (require 'ace-mc)
 (global-set-key (kbd "M-f") 'ace-mc-add-multiple-cursors)
 
-;;never actually works 
+;;never actually works
 (defun add-pretty-symbols-wtf ()
   "make some word or string show as pretty Unicode symbols"
   (setq prettify-symbols-alist
@@ -91,6 +91,16 @@
 ;;Prolog-mode
 (autoload 'prolog-mode "prolog" "Major mode for editing Prolog programs." t)
 (add-to-list 'auto-mode-alist '("\\.pl\\'" . prolog-mode))
+
+;;Python
+(add-hook 'python-mode-hook
+	  (lambda ()
+	      (setq-default indent-tabs-mode t)
+	      (setq-default tab-width 2)
+	      (setq-default py-indent-tabs-mode t)
+	      (add-to-list 'write-file-functions 'delete-trailing-whitespace)))
+
+;; C
 
 ;;Emacs wiki
 (defun window-swap-rotate ()
@@ -125,14 +135,14 @@
 ;; then enter the text in that file's own buffer.
 ;; If you want to create a Org/Latex doc, use the code below.
 
-#+title: TITLE 
+#+title: TITLE
 #+options: toc:nil num:nil tex:t tit
-#+startup: latexpreview showall 
-#+latex_header:	\\usepackage{graphicx}  \\graphicspath{{}} 
-#+latex_header:	\\renewcommand{\\baselinestretch}{1} 
-#+latex_header:	\\newcommand\\tab[1][1cm]{\\noindent\\hspace*{#1}} 
-#+latex_header:	\\renewcommand{\\maketitle}{} 
-#+latex_header:	\\usepackage[top=0.5in, bottom=1in, left=1in, right=1in]{geometry} 
+#+startup: latexpreview showall
+#+latex_header:	\\usepackage{graphicx}  \\graphicspath{{}}
+#+latex_header:	\\renewcommand{\\baselinestretch}{1}
+#+latex_header:	\\newcommand\\tab[1][1cm]{\\noindent\\hspace*{#1}}
+#+latex_header:	\\renewcommand{\\maketitle}{}
+#+latex_header:	\\usepackage[top=0.5in, bottom=1in, left=1in, right=1in]{geometry}
 #+latex_header:	\\usepackage{mathtools} \\DeclarePairedDelimiter\\ceil{\\lceil}{\\rceil} \\DeclarePairedDelimiter\\floor{\\lfloor}{\\rfloor}
 * \\begin{center} Drake Petersen \\tab TITLE \\tab DATE 2018 \\end{center}
 ")
