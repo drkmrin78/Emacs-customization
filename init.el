@@ -11,6 +11,9 @@
 ;;Tramp
 (setq tramp-default-method "sshx")
 
+;;
+(add-hook 'doc-view-mode-hook 'auto-revert-mode)
+
 ;;EVIL
 (require 'evil)
 (evil-mode t)
