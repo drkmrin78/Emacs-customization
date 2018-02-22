@@ -8,6 +8,9 @@
 			 ("melpa" . "http://melpa.org/packages/")
 			 ("marmalade" . "http://marmalade-repo.org/packages/")))
 
+;;Tramp
+(setq tramp-default-method "sshx")
+
 ;;EVIL
 (require 'evil)
 (evil-mode t)
@@ -66,7 +69,7 @@
 (require 'ace-mc)
 (global-set-key (kbd "M-f") 'ace-mc-add-multiple-cursors)
 
-;;never actually works 
+;;never actually works
 (defun add-pretty-symbols-wtf ()
   "make some word or string show as pretty Unicode symbols"
   (setq prettify-symbols-alist
@@ -81,15 +84,21 @@
 ;;ace-mc
 (global-set-key (kbd "M-f") 'ace-mc-add-multiple-cursors)
 
-;;Org-ac
-(require 'org-ac)
-(org-ac/config-default)
-
 ;;Prolog-mode
 (autoload 'prolog-mode "prolog" "Major mode for editing Prolog programs." t)
 (add-to-list 'auto-mode-alist '("\\.pl\\'" . prolog-mode))
 
+;;Python
+(add-hook 'python-mode-hook
+	  (lambda ()
+	      (setq-default indent-tabs-mode t)
+	      (setq-default tab-width 2)
+	      (setq-default py-indent-tabs-mode t)
+	      (add-to-list 'write-file-functions 'delete-trailing-whitespace)))
 
+;; C
+
+;;Emacs wiki
 (defun window-swap-rotate ()
   "Swap the positions of this window and the next one."
   (interactive)
@@ -107,12 +116,14 @@
       (set-window-point (selected-window) other-window-point)
       (set-window-start (selected-window) other-window-start))
     (select-window other-window)))
+(global-set-key (kbd "H-r") 'window-swap-rotate)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-enabled-themes (quote (tsdh-dark)))
  '(delete-selection-mode nil)
  '(inhibit-startup-screen t)
  '(initial-scratch-message
@@ -120,27 +131,22 @@
 ;; If you want to create a file, visit that file with C-x C-f,
 ;; then enter the text in that file's own buffer.
 ;; If you want to create a Org/Latex doc, use the code below.
-;; remember to change the PATH, TITLE, and DATE appropriately.
 
-(org-mode) ;;`C-x C-e` then `C-c C-c` below
-#+begin_src sh 
-    cd ~/Desktop/PATH
-    echo \"#+title: TITLE 
+#+title: TITLE
 #+options: toc:nil num:nil tex:t tit
-#+startup: latexpreview showall 
-#+latex_header:	\\usepackage{graphicx}  \\graphicspath{{}} 
-#+latex_header:	\\renewcommand{\\baselinestretch}{1} 
-#+latex_header:	\\newcommand\\tab[1][1cm]{\\noindent\\hspace*{#1}} 
-#+latex_header:	\\renewcommand{\\maketitle}{} 
-#+latex_header:	\\usepackage[top=0.5in, bottom=1in, left=1in, right=1in]{geometry} 
+#+startup: latexpreview showall
+#+latex_header:	\\usepackage{graphicx}  \\graphicspath{{}}
+#+latex_header:	\\renewcommand{\\baselinestretch}{1}
+#+latex_header:	\\newcommand\\tab[1][1cm]{\\noindent\\hspace*{#1}}
+#+latex_header:	\\renewcommand{\\maketitle}{}
+#+latex_header:	\\usepackage[top=0.5in, bottom=1in, left=1in, right=1in]{geometry}
 #+latex_header:	\\usepackage{mathtools} \\DeclarePairedDelimiter\\ceil{\\lceil}{\\rceil} \\DeclarePairedDelimiter\\floor{\\lfloor}{\\rfloor}
-* \\begin{center} Drake Petersen \\tab TITLE \\tab DATE 2017 \\end{center}
-\" > TITLE.org
-#+end_src")
+* \\begin{center} Drake Petersen \\tab TITLE \\tab DATE 2018 \\end{center}
+")
  '(org-list-allow-alphabetical t)
  '(package-selected-packages
-(quote
- (multi-compile graphviz-dot-mode demo-it ace-mc caml prolog tuareg org-bullets org-ac evil ess)))
+   (quote
+    (company multi-compile graphviz-dot-mode demo-it ace-mc prolog tuareg org-bullets org-ac evil ess)))
  '(show-paren-mode t)
  '(tool-bar-mode nil))
 (custom-set-faces

@@ -84,10 +84,6 @@
 ;;ace-mc
 (global-set-key (kbd "M-f") 'ace-mc-add-multiple-cursors)
 
-;;Org-ac
-(require 'org-ac)
-(org-ac/config-default)
-
 ;;Prolog-mode
 (autoload 'prolog-mode "prolog" "Major mode for editing Prolog programs." t)
 (add-to-list 'auto-mode-alist '("\\.pl\\'" . prolog-mode))
@@ -150,7 +146,7 @@
  '(org-list-allow-alphabetical t)
  '(package-selected-packages
    (quote
-    (multi-compile graphviz-dot-mode demo-it ace-mc prolog tuareg org-bullets org-ac evil ess)))
+    (company multi-compile graphviz-dot-mode demo-it ace-mc prolog tuareg org-bullets evil ess)))
  '(show-paren-mode t)
  '(tool-bar-mode nil))
 (custom-set-faces
