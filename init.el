@@ -22,6 +22,25 @@
 (setq evil-insert-state-cursor '((bar . 4) "dark violet")
       evil-normal-state-cursor '(box "medium spring green"))
 
+;;company
+(require 'company)
+(add-hook 'after-init-hook 'global-company-mode)
+
+;;smartparens
+(require 'smartparens)
+(add-hook 'after-init-hook 'smartparens-global-mode)
+;;gets rid of the annoying compile warnings from smartparens 
+(add-hook 'window-setup-hook
+	  '(lambda ()
+	     (kill-buffer "*Compile-Log*")
+	     (delete-other-windows)))
+
+;;expand-region
+(require 'expand-region)
+;;Note this binding is used because evil-mode is active
+;;global-set-key is needed for users not using evil mode
+(define-key evil-motion-state-map (kbd "C-e") 'er/expand-region)
+
 ;;basics all users should set
 ;; swap CTRL and CAPS (highly recommend)
 (global-linum-mode)
@@ -87,10 +106,6 @@
 ;;ace-mc
 (global-set-key (kbd "M-f") 'ace-mc-add-multiple-cursors)
 
-;;Org-ac
-(require 'org-ac)
-(org-ac/config-default)
-
 ;;Prolog-mode
 (autoload 'prolog-mode "prolog" "Major mode for editing Prolog programs." t)
 (add-to-list 'auto-mode-alist '("\\.pl\\'" . prolog-mode))
@@ -130,6 +145,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-enabled-themes (quote (tsdh-dark)))
  '(delete-selection-mode nil)
  '(inhibit-startup-screen t)
  '(initial-scratch-message
@@ -152,7 +168,7 @@
  '(org-list-allow-alphabetical t)
  '(package-selected-packages
    (quote
-    (multi-compile graphviz-dot-mode demo-it ace-mc prolog tuareg org-bullets org-ac evil ess)))
+    (smartparens expand-region company multi-compile graphviz-dot-mode demo-it ace-mc prolog tuareg org-bullets evil ess)))
  '(show-paren-mode t)
  '(tool-bar-mode nil))
 (custom-set-faces
