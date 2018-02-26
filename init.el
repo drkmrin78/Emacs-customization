@@ -165,7 +165,7 @@
  '(org-list-allow-alphabetical t)
  '(package-selected-packages
    (quote
-    (smartparens expand-region company multi-compile graphviz-dot-mode demo-it ace-mc prolog tuareg org-bullets evil ess)))
+    (w3m smartparens expand-region company multi-compile graphviz-dot-mode demo-it ace-mc prolog tuareg org-bullets evil ess)))
  '(show-paren-mode t)
  '(tool-bar-mode nil))
 (custom-set-faces
