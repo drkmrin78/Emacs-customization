@@ -19,6 +19,7 @@
 (evil-mode t)
 ;;Better Undo than default
 (setq evil-want-fine-undo t)
+;;M-x l-c-d <----for color options
 (setq evil-insert-state-cursor '((bar . 4) "dark violet")
       evil-normal-state-cursor '(box "medium spring green"))
 
