@@ -4,15 +4,10 @@
       calendar-location-name "College Park, MD")
 
 (require 'package)
-(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-			 ("melpa" . "http://melpa.org/packages/")
-			 ("marmalade" . "http://marmalade-repo.org/packages/")))
-
-;;Tramp
-(setq tramp-default-method "sshx")
-
-;;
-(add-hook 'doc-view-mode-hook 'auto-revert-mode)
+(setq package-archives
+      '(("gnu" . "http://elpa.gnu.org/packages/")
+	("melpa" . "http://melpa.org/packages/")
+	("marmalade" . "http://marmalade-repo.org/packages/")))
 
 ;;EVIL
 (require 'evil)
@@ -47,6 +42,12 @@
 (global-linum-mode)
 (setq-default c-basic-offset 3)
 (fset 'yes-or-no-p 'y-or-n-p)
+;;auto refresh documents
+(add-hook 'doc-view-mode-hook 'auto-revert-mode)
+(setq auto-window-vscroll nil) ;;speed up?
+
+;;Tramp
+(setq tramp-default-method "sshx")
 
 ;;multi-compile
 (require 'multi-compile)
