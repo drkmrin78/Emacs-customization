@@ -19,6 +19,7 @@
 (evil-mode t)
 ;;Better Undo than default
 (setq evil-want-fine-undo t)
+;;M-x l-c-d <----for color options
 (setq evil-insert-state-cursor '((bar . 4) "dark violet")
       evil-normal-state-cursor '(box "medium spring green"))
 
@@ -28,7 +29,15 @@
 (setq company-dabbrev-downcase 0)
 (setq company-idle-delay 0)
 
-
+(require 'company-irony)
+;; Load with `irony-mode` as a grouped backend
+(eval-after-load 'company
+  '(add-to-list 'company-backends 'company-irony))
+(require 'company-irony-c-headers)
+;; Load with `irony-mode` as a grouped backend
+(eval-after-load 'company
+  '(add-to-list 'company-backends
+		'(company-irony-c-headers company-irony)))
 ;;smartparens
 (require 'smartparens)
 (add-hook 'after-init-hook 'smartparens-global-mode)
@@ -49,6 +58,12 @@
 (global-linum-mode)
 (setq-default c-basic-offset 3)
 (fset 'yes-or-no-p 'y-or-n-p)
+;;auto refresh documents
+(add-hook 'doc-view-mode-hook 'auto-revert-mode)
+(setq auto-window-vscroll nil) ;;speed up?
+
+;;Tramp
+(setq tramp-default-method "sshx")
 
 ;;multi-compile
 (require 'multi-compile)
@@ -62,6 +77,23 @@
       ;; more compile commands can be added here.
       )
 (global-set-key (kbd "H-c") 'multi-compile-run)
+;;Hides the compile buffer
+(defun bury-compile-buffer-if-successful (buffer string)
+ "Bury a compilation buffer if succeeded without warnings "
+ (when (and
+         (buffer-live-p buffer)
+         (string-match "compilation" (buffer-name buffer))
+         (string-match "finished" string)
+         (not
+          (with-current-buffer buffer
+            (goto-char (point-min))
+            (search-forward "warning" nil t))))
+    (run-with-timer 1 nil
+                    (lambda (buf)
+                      (bury-buffer buf)
+                      (switch-to-prev-buffer (get-buffer-window buf) 'kill))
+                    buffer)))
+(add-hook 'compilation-finish-functions 'bury-compile-buffer-if-successful)
 
 ;;ORG MODE
 (setq org-ellipsis "▾")
@@ -172,7 +204,7 @@
  '(org-list-allow-alphabetical t)
  '(package-selected-packages
    (quote
-    (smartparens expand-region company multi-compile graphviz-dot-mode demo-it ace-mc prolog tuareg org-bullets evil ess)))
+    (company-irony company-irony-c-headers w3m smartparens expand-region company multi-compile graphviz-dot-mode demo-it ace-mc prolog tuareg org-bullets evil ess)))
  '(show-paren-mode t)
  '(tool-bar-mode nil))
 (custom-set-faces
