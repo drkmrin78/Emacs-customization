@@ -11,7 +11,7 @@
 ;;Tramp
 (setq tramp-default-method "sshx")
 
-;;
+;;docview auto-update the open documents
 (add-hook 'doc-view-mode-hook 'auto-revert-mode)
 
 ;;EVIL
@@ -25,6 +25,9 @@
 ;;company
 (require 'company)
 (add-hook 'after-init-hook 'global-company-mode)
+(setq company-dabbrev-downcase 0)
+(setq company-idle-delay 0)
+
 
 ;;smartparens
 (require 'smartparens)
@@ -53,7 +56,8 @@
       '(
 	(c-mode . (("gcc-216" . "gcc -ansi -Wall -g -O0 -Wwrite-strings -Wshadow -pedantic-errors -fstack-protector-all %file-name")
 		   ("gcc" . "gcc -g %file-name")
-		   ("make" . "make")))
+		   ("make" . "make")
+		   ("mclean" . "make clean")))
 	)
       ;; more compile commands can be added here.
       )
