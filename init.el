@@ -29,16 +29,7 @@
 (setq company-dabbrev-downcase 0)
 (setq company-idle-delay 0)
 
-(require 'company-irony)
-;; Load with `irony-mode` as a grouped backend
-(eval-after-load 'company
-  '(add-to-list 'company-backends 'company-irony))
-(require 'company-irony-c-headers)
-;; Load with `irony-mode` as a grouped backend
-(eval-after-load 'company
-  '(add-to-list 'company-backends
-		'(company-irony-c-headers company-irony)))
-;;smartparens
+;smartparens
 (require 'smartparens)
 (add-hook 'after-init-hook 'smartparens-global-mode)
 ;;gets rid of the annoying compile warnings from smartparens 
@@ -204,7 +195,7 @@
  '(org-list-allow-alphabetical t)
  '(package-selected-packages
    (quote
-    (company-irony company-irony-c-headers w3m smartparens expand-region company multi-compile graphviz-dot-mode demo-it ace-mc prolog tuareg org-bullets evil ess)))
+    (w3m smartparens expand-region company multi-compile graphviz-dot-mode demo-it ace-mc prolog tuareg org-bullets evil ess)))
  '(show-paren-mode t)
  '(tool-bar-mode nil))
 (custom-set-faces
