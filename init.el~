@@ -4,54 +4,63 @@
       calendar-location-name "College Park, MD")
 
 (require 'package)
-(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-			 ("melpa" . "http://melpa.org/packages/")
-			 ("marmalade" . "http://marmalade-repo.org/packages/")))
+(setq package-archives
+      '(("gnu" . "http://elpa.gnu.org/packages/")
+	("melpa" . "http://melpa.org/packages/")
+	("marmalade" . "http://marmalade-repo.org/packages/")
+	("org" . "http://orgmode.org/elpa")))
+(setq package-enable-at-startup nil)
 
-;;Tramp
-(setq tramp-default-method "sshx")
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+(eval-when-compile
+  (require 'use-package))
 
-;;docview auto-update the open documents
-(add-hook 'doc-view-mode-hook 'auto-revert-mode)
+;;tramp
+(use-package tramp
+  :ensure t
+  :init (setq tramp-default-method "sshx")
+  )
 
 ;;EVIL
-(require 'evil)
-(evil-mode t)
-;;Better Undo than default
-(setq evil-want-fine-undo t)
-;;M-x l-c-d <----for color options
-(setq evil-insert-state-cursor '((bar . 4) "dark violet")
-      evil-normal-state-cursor '(box "medium spring green"))
+(use-package evil
+  :ensure t
+  :init
+  (evil-mode t)
+  ;;Better Undo than default
+  (setq evil-want-fine-undo t)
+  ;;M-x l-c-d <----for color options
+  (setq evil-insert-state-cursor '((bar . 4) "dark violet")
+	evil-normal-state-cursor '(box "medium spring green"))
+  )
 
-;;company
-(require 'company)
-(add-hook 'after-init-hook 'global-company-mode)
-(setq company-dabbrev-downcase 0)
-(setq company-idle-delay 0)
+;;iedit
+(use-package iedit
+  :ensure t)
+(use-package evil-iedit-state
+  :ensure t)
 
-(require 'company-irony)
-;; Load with `irony-mode` as a grouped backend
-(eval-after-load 'company
-  '(add-to-list 'company-backends 'company-irony))
-(require 'company-irony-c-headers)
-;; Load with `irony-mode` as a grouped backend
-(eval-after-load 'company
-  '(add-to-list 'company-backends
-		'(company-irony-c-headers company-irony)))
-;;smartparens
-(require 'smartparens)
-(add-hook 'after-init-hook 'smartparens-global-mode)
-;;gets rid of the annoying compile warnings from smartparens 
-(add-hook 'window-setup-hook
-	  '(lambda ()
-	     (kill-buffer "*Compile-Log*")
-	     (delete-other-windows)))
+(use-package flycheck
+  :ensure t
+  :init
+  (global-flycheck-mode)
+  (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc))
+  )
+
+(use-package company
+  :ensure t
+  :init (add-hook 'after-init-hook 'global-company-mode)
+  )
 
 ;;expand-region
-(require 'expand-region)
-;;Note this binding is used because evil-mode is active
-;;global-set-key is needed for users not using evil mode
-(define-key evil-motion-state-map (kbd "C-e") 'er/expand-region)
+(use-package expand-region
+  :ensure t
+  :init
+  ;;Note this binding is used because evil-mode is active
+  ;;global-set-key is needed for users not using evil mode
+  (define-key evil-motion-state-map (kbd "C-e") 'er/expand-region)
+  )
 
 ;;basics all users should set
 ;; swap CTRL and CAPS (highly recommend)
@@ -62,70 +71,77 @@
 (add-hook 'doc-view-mode-hook 'auto-revert-mode)
 (setq auto-window-vscroll nil) ;;speed up?
 
-;;Tramp
-(setq tramp-default-method "sshx")
-
 ;;multi-compile
-(require 'multi-compile)
-(setq multi-compile-alist
-      '(
-	(c-mode . (("gcc-216" . "gcc -ansi -Wall -g -O0 -Wwrite-strings -Wshadow -pedantic-errors -fstack-protector-all %file-name")
-		   ("gcc" . "gcc -g %file-name")
-		   ("make" . "make")
-		   ("mclean" . "make clean")))
+(use-package multi-compile
+  :ensure t
+  :init
+  (global-set-key (kbd "H-c") 'multi-compile-run)
+  (setq multi-compile-alist
+	'(
+	  (c-mode . (("gcc-216" . "gcc -ansi -Wall -g -O0 -Wwrite-strings -Wshadow -pedantic-errors -fstack-protector-all %file-name")
+		     ("gcc" . "gcc -g %file-name")
+		     ("make" . "make")
+		     ("mclean" . "make clean")))
+	  )
+	;; more compile commands can be added here.
 	)
-      ;; more compile commands can be added here.
-      )
-(global-set-key (kbd "H-c") 'multi-compile-run)
-;;Hides the compile buffer
-(defun bury-compile-buffer-if-successful (buffer string)
- "Bury a compilation buffer if succeeded without warnings "
- (when (and
-         (buffer-live-p buffer)
-         (string-match "compilation" (buffer-name buffer))
-         (string-match "finished" string)
-         (not
-          (with-current-buffer buffer
-            (goto-char (point-min))
-            (search-forward "warning" nil t))))
-    (run-with-timer 1 nil
-                    (lambda (buf)
-                      (bury-buffer buf)
-                      (switch-to-prev-buffer (get-buffer-window buf) 'kill))
-                    buffer)))
-(add-hook 'compilation-finish-functions 'bury-compile-buffer-if-successful)
+  (defun bury-compile-buffer-if-successful (buffer string)
+    "Bury a compilation buffer if succeeded without warnings "
+    (when (and
+	   (buffer-live-p buffer)
+	   (string-match "compilation" (buffer-name buffer))
+	   (string-match "finished" string)
+	   (not
+	    (with-current-buffer buffer
+	      (goto-char (point-min))
+	      (search-forward "warning" nil t))))
+      (run-with-timer 1 nil
+		      (lambda (buf)
+			(bury-buffer buf)
+			(switch-to-prev-buffer (get-buffer-window buf) 'kill))
+		      buffer)))
+  (add-hook 'compilation-finish-functions 'bury-compile-buffer-if-successful)
+  )
 
 ;;ORG MODE
-(setq org-ellipsis "▾")
-
-(add-hook 'org-mode-hook 'flyspell-mode)
-(global-set-key (kbd "H-z") 'ispell-word)
-(setq org-agenda-files '("~/Dropbox"))
-(global-set-key (kbd "H-q") 'org-agenda)
-;;(add-to-list 'load-path "elpa/org-bullets-20140918.1137")
-(require 'org-bullets)
-(add-hook 'org-mode-hook
-         (lambda ()
-            (org-bullets-mode t)))
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '((C . t)
-   (ruby . t)
-   (ocaml . t)
-   (sh . t)
-   (dot . t)
-   (R . t)
-   ))
-(defun fill-setup()
-  "sets the column to 80 and sets minor mode auto-fill-mode"
-  (set-fill-column 80)
-  (auto-fill-mode t))
-
-(add-hook 'org-mode-hook 'fill-setup)
+(use-package org
+  :ensure t
+  :init
+  (setq org-ellipsis "▾")
+  
+  (add-hook 'org-mode-hook 'flyspell-mode)
+  (global-set-key (kbd "H-z") 'ispell-word)
+  (setq org-agenda-files '("~/Dropbox"))
+  (global-set-key (kbd "H-q") 'org-agenda)
+  ;;(add-to-list 'load-path "elpa/org-bullets-20140918.1137")
+  (use-package org-bullets
+    :ensure t
+    :init 
+    (add-hook 'org-mode-hook
+	      (lambda ()
+		(org-bullets-mode t)))
+    (org-babel-do-load-languages
+     'org-babel-load-languages
+     '((C . t)
+       (ruby . t)
+       (ocaml . t)
+       (sh . t)
+       (dot . t)
+       (R . t)
+       ))
+    )
+  (defun fill-setup()
+    "sets the column to 80 and sets minor mode auto-fill-mode"
+    (set-fill-column 80)
+    (auto-fill-mode t))
+  (add-hook 'org-mode-hook 'fill-setup)
+  )
 
 ;;ace-mc
-(require 'ace-mc)
-(global-set-key (kbd "M-f") 'ace-mc-add-multiple-cursors)
+(use-package ace-mc
+  :ensure t
+  
+  (global-set-key (kbd "M-f") 'ace-mc-add-multiple-cursors)
 
 ;;never actually works
 (defun add-pretty-symbols-wtf ()
@@ -136,11 +152,12 @@
 (add-pretty-symbols-wtf)
 (global-prettify-symbols-mode)
 
-;; ESS mode configuration (only if ess is in a nonstandard place)
-(require 'ess)
-
 ;;ace-mc
-(global-set-key (kbd "M-f") 'ace-mc-add-multiple-cursors)
+(use-package ace-mc
+  :ensure t
+  :init
+  (global-set-key (kbd "M-f") 'ace-mc-add-multiple-cursors)
+  )
 
 ;;Prolog-mode
 (autoload 'prolog-mode "prolog" "Major mode for editing Prolog programs." t)
@@ -154,7 +171,18 @@
 	      (setq-default py-indent-tabs-mode t)
 	      (add-to-list 'write-file-functions 'delete-trailing-whitespace)))
 
-;; C
+;;smartparens
+(use-package smartparens
+  :ensure t
+  :init
+  (add-hook 'after-init-hook 'smartparens-global-mode)
+  ;;gets rid of the annoying compile warnings from smartparens
+  ;;(add-hook 'window-setup-hook
+;;	    '(lambda ()
+;;	       (kill-buffer "*Compile-Log*")
+;;	       (delete-other-windows)))
+  )
+
 
 ;;Emacs wiki
 (defun window-swap-rotate ()
@@ -204,7 +232,7 @@
  '(org-list-allow-alphabetical t)
  '(package-selected-packages
    (quote
-    (company-irony company-irony-c-headers w3m smartparens expand-region company multi-compile graphviz-dot-mode demo-it ace-mc prolog tuareg org-bullets evil ess)))
+    (flycheck use-package evil-iedit-state iedit w3m smartparens expand-region company multi-compile graphviz-dot-mode demo-it ace-mc prolog tuareg org-bullets evil ess)))
  '(show-paren-mode t)
  '(tool-bar-mode nil))
 (custom-set-faces
