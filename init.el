@@ -213,7 +213,7 @@
  '(org-list-allow-alphabetical t)
  '(package-selected-packages
    (quote
-    (flycheck use-package evil-iedit-state iedit w3m smartparens expand-region company multi-compile graphviz-dot-mode demo-it ace-mc prolog tuareg org-bullets evil ess)))
+    (flycheck use-package evil-iedit-state iedit w3m smartparens expand-region multi-compile graphviz-dot-mode demo-it ace-mc prolog tuareg org-bullets evil ess)))
  '(show-paren-mode t)
  '(tool-bar-mode nil))
 (custom-set-faces

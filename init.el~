@@ -140,9 +140,9 @@
 ;;ace-mc
 (use-package ace-mc
   :ensure t
-  
+  :init
   (global-set-key (kbd "M-f") 'ace-mc-add-multiple-cursors)
-
+  )
 ;;never actually works
 (defun add-pretty-symbols-wtf ()
   "make some word or string show as pretty Unicode symbols"
@@ -152,35 +152,16 @@
 (add-pretty-symbols-wtf)
 (global-prettify-symbols-mode)
 
-;;ace-mc
-(use-package ace-mc
-  :ensure t
-  :init
-  (global-set-key (kbd "M-f") 'ace-mc-add-multiple-cursors)
-  )
-
-;;Prolog-mode
-(autoload 'prolog-mode "prolog" "Major mode for editing Prolog programs." t)
-(add-to-list 'auto-mode-alist '("\\.pl\\'" . prolog-mode))
-
-;;Python
-(add-hook 'python-mode-hook
-	  (lambda ()
-	      (setq-default indent-tabs-mode t)
-	      (setq-default tab-width 2)
-	      (setq-default py-indent-tabs-mode t)
-	      (add-to-list 'write-file-functions 'delete-trailing-whitespace)))
-
 ;;smartparens
 (use-package smartparens
   :ensure t
   :init
   (add-hook 'after-init-hook 'smartparens-global-mode)
   ;;gets rid of the annoying compile warnings from smartparens
-  ;;(add-hook 'window-setup-hook
-;;	    '(lambda ()
-;;	       (kill-buffer "*Compile-Log*")
-;;	       (delete-other-windows)))
+  (add-hook 'window-setup-hook
+	    '(lambda ()
+	       (kill-buffer "*Compile-Log*")
+	       (delete-other-windows)))
   )
 
 
