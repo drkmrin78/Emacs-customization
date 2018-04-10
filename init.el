@@ -1,7 +1,6 @@
 (package-initialize)
 (setq user-full-name "Drake M. Petersen"
-      user-mail-address "drakemp@cs.umd.edu"
-      calendar-location-name "College Park, MD")
+      user-mail-address "drakemp@cs.umd.edu")
 
 (require 'package)
 (setq package-archives
@@ -34,6 +33,11 @@
   (setq evil-insert-state-cursor '((bar . 4) "dark violet")
 	evil-normal-state-cursor '(box "medium spring green"))
   )
+
+(use-package challenger-deep-theme
+  :ensure t
+  :init (load-theme 'challenger-deep t))
+
 
 ;;iedit
 (use-package iedit
@@ -85,7 +89,7 @@
 	  )
 	;; more compile commands can be added here.
 	)
-  (defun bury-compile-buffer-if-successful (buffer string)
+ (defun bury-compile-buffer-if-successful (buffer string)
     "Bury a compilation buffer if succeeded without warnings "
     (when (and
 	   (buffer-live-p buffer)
@@ -113,7 +117,6 @@
   (global-set-key (kbd "H-z") 'ispell-word)
   (setq org-agenda-files '("~/Dropbox"))
   (global-set-key (kbd "H-q") 'org-agenda)
-  ;;(add-to-list 'load-path "elpa/org-bullets-20140918.1137")
   (use-package org-bullets
     :ensure t
     :init 
@@ -152,19 +155,19 @@
 (add-pretty-symbols-wtf)
 (global-prettify-symbols-mode)
 
+(use-package powershell
+  :ensure t
+  :init
+  )
+
+
+
 ;;smartparens
 (use-package smartparens
   :ensure t
   :init
   (add-hook 'after-init-hook 'smartparens-global-mode)
-  ;;gets rid of the annoying compile warnings from smartparens
-  (add-hook 'window-setup-hook
-	    '(lambda ()
-	       (kill-buffer "*Compile-Log*")
-	       (delete-other-windows)))
   )
-
-
 ;;Emacs wiki
 (defun window-swap-rotate ()
   "Swap the positions of this window and the next one."
@@ -190,7 +193,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-enabled-themes (quote (tsdh-dark)))
+ ;;'(custom-enabled-themes (quote (tsdh-dark)))
  '(delete-selection-mode nil)
  '(inhibit-startup-screen t)
  '(initial-scratch-message
@@ -213,7 +216,7 @@
  '(org-list-allow-alphabetical t)
  '(package-selected-packages
    (quote
-    (flycheck use-package evil-iedit-state iedit w3m smartparens expand-region multi-compile graphviz-dot-mode demo-it ace-mc prolog tuareg org-bullets evil ess)))
+    (challenger-deep-theme powershell flycheck use-package evil-iedit-state iedit w3m smartparens expand-region company multi-compile graphviz-dot-mode demo-it ace-mc prolog tuareg org-bullets evil ess)))
  '(show-paren-mode t)
  '(tool-bar-mode nil))
 (custom-set-faces
